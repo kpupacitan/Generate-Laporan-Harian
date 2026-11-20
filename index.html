@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generator LKH — Pranata Komputer Ahli Pertama | Sekretariat KPU Kabupaten Pacitan</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Konfigurasi Kustom Tailwind untuk Identitas Visual KPU -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            kpu: {
+              maroon: '#8B1E24',
+              maroonDark: '#6E1419',
+              maroonBright: '#991B1B',
+              gold: '#B45309',
+              goldLight: '#FEF3C7',
+              surface: '#F8FAFC',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Styling tambahan halus untuk scrollbar dan animasi transisi */
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-up {
+      animation: fadeSlideUp 0.25s ease-out forwards;
+    }
+
+    /* Kustomisasi scrollbar halus pada tabel riwayat */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #F1F5F9;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-800 antialiased flex flex-col">
+
+  <!-- ===================================================================== -->
+  <!-- HEADER RESMI INSTANSI                                                  -->
+  <!-- ===================================================================== -->
+  <header class="bg-gradient-to-r from-[#6E1419] via-[#8B1E24] to-[#991B1B] text-white shadow-md border-b-4 border-[#B45309]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <!-- Identitas Judul & Instansi -->
+        <div class="flex items-start sm:items-center gap-3.5">
+          <!-- Ikon Lambang Digital / Komputer Instansi -->
+          <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-amber-300/30 flex items-center justify-center shadow-inner">
+            <svg class="w-7 h-7 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2.5" />
+              <path d="M8 21h8" />
+              <path d="M12 17v4" />
+              <path d="M7 8h4" />
+              <path d="M7 11.5h10" />
+              <circle cx="16" cy="8" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          </div>
+
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold tracking-wider uppercase bg-amber-500/20 text-amber-200 border border-amber-400/30">
+                e-Kinerja &bull; LKH ASN
+              </span>
+              <span class="text-xs text-rose-100/80 hidden sm:inline">Batas Resmi: 30&ndash;90 Kata/Kolom</span>
+            </div>
+            <h1 class="text-lg sm:text-xl lg:text-2xl font-bold tracking-tight text-white mt-0.5 leading-snug">
+              Generator LKH &mdash; Pranata Komputer Ahli Pertama
+            </h1>
+            <p class="text-xs sm:text-sm text-rose-100/90 font-medium mt-0.5">
+              Sekretariat KPU Kabupaten Pacitan &bull; Jabatan: Pranata Komputer Ahli Pertama
+            </p>
+          </div>
+        </div>
+
+        <!-- Indikator Tanggal Hari Ini -->
+        <div class="flex items-center self-start md:self-center gap-2.5 bg-black/20 border border-white/15 rounded-xl px-3.5 py-2.5 backdrop-blur-sm">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] flex-shrink-0"></div>
+          <div class="leading-tight">
+            <p class="text-[10px] uppercase tracking-wider text-rose-200/90 font-semibold">Hari Ini</p>
+            <p id="header-today-date" class="text-xs sm:text-sm font-semibold text-white">Memuat tanggal...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- KONTEN UTAMA (LAYOUT RESPONSIF 2 KOLOM DESKTOP)                        -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+
+    <!-- Grid Utama: Panel Kiri (Input) & Panel Kanan (Hasil Terpisah) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- ================================================================= -->
+      <!-- PANEL KIRI: FORM INPUT KEGIATAN (5 KOLOM DESKTOP)                  -->
+      <!-- ================================================================= -->
+      <section class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
+        <!-- Header Kartu Input -->
+        <div class="px-5 py-4 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-[#8B1E24]/10 text-[#8B1E24] flex items-center justify-center">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-sm sm:text-base font-bold text-slate-900">Panel Input Kegiatan</h2>
+              <p class="text-xs text-slate-500">Isi uraian singkat atau poin aktivitas harian Anda</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Input -->
+        <form id="lkh-form" class="p-5 space-y-5" novalidate>
+          <!-- Baris Tanggal & Kategori -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Tanggal Kegiatan -->
+            <div>
+              <label for="input-tanggal" class="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
+                Tanggal Kegiatan
+              </label>
+              <input
+                type="date"
+                id="input-tanggal"
+                required
+                class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-xs focus:border-[#8B1E24] focus:ring-2 focus:ring-[#8B1E24]/20 focus:outline-none transition"
+              />
+            </div>
+
+            <!-- Kategori Tugas Pranata Komputer -->
+            <div>
+              <label for="input-kategori" class="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">
+                Kategori Tugas <span class="font-normal text-slate-400 normal-case">(Opsional)</span>
+              </label>
+              <select
+                id="input-kategori"
+                class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-xs focus:border-[#8B1E24] focus:ring-2 focus:ring-[#8B1E24]/20 focus:outline-none transition"
+              >
+                <option value="Otomatis / Umum">Otomatis / Umum</option>
+                <option value="Infrastruktur & Jaringan TI">Infrastruktur &amp; Jaringan TI</option>
+                <option value="Pengelolaan Aplikasi & Sistem Informasi KPU">Pengelolaan Aplikasi &amp; Sistem Informasi KPU</option>
+                <option value="Pengolahan, Backup & Keamanan Data">Pengolahan, Backup &amp; Keamanan Data</option>
+                <option value="Dukungan Teknis (Helpdesk) & Rapat Daring">Dukungan Teknis (Helpdesk) &amp; Rapat Daring</option>
+                <option value="Tata Kelola & Dokumentasi TI">Tata Kelola &amp; Dokumentasi TI</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Pilihan Target Panjang Kalimat -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                Target Panjang Kalimat
+              </label>
+              <span class="text-[11px] font-medium text-[#B45309] bg-amber-50 border border-amber-200/80 px-2 py-0.5 rounded-full">
+                Ketat 30&ndash;90 Kata
+              </span>
+            </div>
+            <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Target Panjang Kalimat">
+              <label class="cursor-pointer">
+                <input type="radio" name="target-panjang" value="ringkas" class="peer sr-only" />
+                <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5 text-center transition peer-checked:border-[#8B1E24] peer-checked:bg-[#8B1E24]/5 peer-checked:ring-1 peer-checked:ring-[#8B1E24] hover:border-slate-300">
+                  <span class="block text-xs font-bold text-slate-800 peer-checked:text-[#8B1E24]">Ringkas</span>
+                  <span class="block text-[11px] text-slate-500 mt-0.5">30&ndash;45 kata</span>
+                </div>
+              </label>
+
+              <label class="cursor-pointer">
+                <input type="radio" name="target-panjang" value="standar" class="peer sr-only" checked />
+                <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5 text-center transition peer-checked:border-[#8B1E24] peer-checked:bg-[#8B1E24]/5 peer-checked:ring-1 peer-checked:ring-[#8B1E24] hover:border-slate-300">
+                  <span class="block text-xs font-bold text-slate-800">Standar</span>
+                  <span class="block text-[11px] text-slate-500 mt-0.5">40&ndash;65 kata</span>
+                </div>
+              </label>
+
+              <label class="cursor-pointer">
+                <input type="radio" name="target-panjang" value="komprehensif" class="peer sr-only" />
+                <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5 text-center transition peer-checked:border-[#8B1E24] peer-checked:bg-[#8B1E24]/5 peer-checked:ring-1 peer-checked:ring-[#8B1E24] hover:border-slate-300">
+                  <span class="block text-xs font-bold text-slate-800">Komprehensif</span>
+                  <span class="block text-[11px] text-slate-500 mt-0.5">65&ndash;85 kata</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Blok Input Kegiatan -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="input-kegiatan" class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                Blok Input Kegiatan
+              </label>
+              <button
+                type="button"
+                id="btn-clear-input"
+                class="text-xs font-medium text-slate-400 hover:text-[#8B1E24] transition px-1.5 py-0.5 rounded"
+                title="Bersihkan kotak input"
+              >
+                Bersihkan
+              </button>
+            </div>
+            <textarea
+              id="input-kegiatan"
+              rows="5"
+              placeholder="Contoh: Melakukan pengecekan jaringan LAN dan WiFi di ruang sekretariat dan aula, merestart router utama yang sempat lambat, serta memastikan koneksi internet stabil untuk operasional aplikasi perkantoran."
+              class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-800 placeholder-slate-400 shadow-xs focus:border-[#8B1E24] focus:ring-2 focus:ring-[#8B1E24]/20 focus:outline-none transition resize-y leading-relaxed"
+            ></textarea>
+            <p class="mt-1.5 text-[11px] text-slate-500">
+              Tips: Cukup tulis poin-poin singkat atau catatan kerja harian Anda. Sistem akan merangkainya menjadi narasi formal e-Kinerja KPU.
+            </p>
+          </div>
+
+          <!-- Contoh Cepat (Quick Chips) -->
+          <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200/70">
+            <div class="flex items-center gap-1.5 mb-2.5">
+              <svg class="w-3.5 h-3.5 text-[#B45309]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+              </svg>
+              <span class="text-xs font-semibold text-slate-700">Contoh Cepat (Klik untuk Mengisi)</span>
+            </div>
+            <div class="flex flex-wrap gap-2" id="quick-examples-container">
+              <button
+                type="button"
+                data-kategori="Infrastruktur & Jaringan TI"
+                data-example="Melakukan pemeliharaan dan pengecekan jaringan LAN serta WiFi kantor Sekretariat KPU Kabupaten Pacitan, memeriksa perangkat switch dan access point di ruang subbagian, serta melakukan uji kecepatan koneksi agar operasional aplikasi perkantoran berjalan lancar."
+                class="quick-chip text-left text-xs font-medium px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-[#8B1E24] hover:text-[#8B1E24] hover:bg-rose-50/40 transition shadow-2xs"
+              >
+                Pemeliharaan Jaringan LAN/WiFi
+              </button>
+              <button
+                type="button"
+                data-kategori="Pengolahan, Backup & Keamanan Data"
+                data-example="Melaksanakan pencadangan (backup) berkala basis data administrasi perkantoran serta melakukan pembaruan konten berita, pengumuman, dan dokumen publik pada laman website resmi KPU Kabupaten Pacitan sesuai standar keamanan informasi."
+                class="quick-chip text-left text-xs font-medium px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-[#8B1E24] hover:text-[#8B1E24] hover:bg-rose-50/40 transition shadow-2xs"
+              >
+                Backup Data &amp; Update Website KPU
+              </button>
+              <button
+                type="button"
+                data-kategori="Dukungan Teknis (Helpdesk) & Rapat Daring"
+                data-example="Memberikan dukungan teknis penyelenggaraan rapat koordinasi daring melalui Zoom Meeting bersama KPU Provinsi Jawa Timur dan jajaran subbagian, menyiapkan perangkat audio-visual ruang rapat, mengatur host/co-host, serta memantau kestabilan siaran selama kegiatan berlangsung."
+                class="quick-chip text-left text-xs font-medium px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-[#8B1E24] hover:text-[#8B1E24] hover:bg-rose-50/40 transition shadow-2xs"
+              >
+                Dukungan Teknis Zoom Rakor
+              </button>
+              <button
+                type="button"
+                data-kategori="Dukungan Teknis (Helpdesk) & Rapat Daring"
+                data-example="Melakukan troubleshooting dan perbaikan perangkat komputer kerja pegawai serta instalasi ulang driver printer jaringan di ruang Subbagian Keuangan, Umum, dan Logistik agar proses pencetakan naskah dinas tidak terhambat."
+                class="quick-chip text-left text-xs font-medium px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-[#8B1E24] hover:text-[#8B1E24] hover:bg-rose-50/40 transition shadow-2xs"
+              >
+                Perbaikan PC &amp; Printer Sekretariat
+              </button>
+            </div>
+          </div>
+
+          <!-- Pesan Error Inline (Jika Ada) -->
+          <div id="form-error-box" class="hidden rounded-xl bg-red-50 border border-red-200 px-3.5 py-2.5 text-xs text-red-700 flex items-start gap-2">
+            <svg class="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span id="form-error-text"></span>
+          </div>
+
+          <!-- Tombol Utama Submit -->
+          <button
+            type="submit"
+            id="btn-generate"
+            class="w-full flex items-center justify-center gap-2.5 rounded-xl bg-[#8B1E24] hover:bg-[#6E1419] active:scale-[0.99] text-white font-semibold text-sm px-5 py-3.5 shadow-sm shadow-[#8B1E24]/25 transition disabled:opacity-65 disabled:cursor-not-allowed"
+          >
+            <svg id="btn-generate-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z" />
+            </svg>
+            <svg id="btn-generate-spinner" class="hidden w-4 h-4 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-85" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+            <span id="btn-generate-label">Susun Kalimat LKH</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- PANEL KANAN: HASIL LKH TERPISAH (7 KOLOM DESKTOP)                  -->
+      <!-- ================================================================= -->
+      <section class="lg:col-span-7 space-y-5">
+
+        <!-- Bar Kontrol Penyempurnaan AI -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900">Hasil Narasi Laporan Kerja Harian</h2>
+            <p class="text-xs text-slate-500">Teks dapat diedit langsung &bull; Validasi otomatis 30&ndash;90 kata</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Tombol Variasi Diksi -->
+            <button
+              type="button"
+              id="btn-regenerate"
+              disabled
+              class="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-semibold text-xs px-3 py-2 transition disabled:opacity-45 disabled:cursor-not-allowed"
+              title="Susun ulang dengan variasi diksi formal yang berbeda"
+            >
+              <svg class="w-3.5 h-3.5 text-[#8B1E24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+              <span>Variasi Diksi</span>
+            </button>
+
+            <!-- Tombol Sesuaikan ke 30–90 Kata -->
+            <button
+              type="button"
+              id="btn-adjust-length"
+              disabled
+              class="inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100/80 text-[#92400E] font-semibold text-xs px-3 py-2 transition disabled:opacity-45 disabled:cursor-not-allowed"
+              title="Sesuaikan panjang teks saat ini agar tepat berada di rentang 30–90 kata"
+            >
+              <svg class="w-3.5 h-3.5 text-[#B45309]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="21" y1="10" x2="7" y2="10" />
+                <line x1="21" y1="6" x2="3" y2="6" />
+                <line x1="21" y1="14" x2="3" y2="14" />
+                <line x1="21" y1="18" x2="7" y2="18" />
+              </svg>
+              <span>Sesuaikan ke 30&ndash;90 Kata</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KARTU 1: KOLOM KEGIATAN / TUGAS -->
+        <article class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden transition-all" id="card-kegiatan">
+          <div class="px-5 py-3.5 border-b border-slate-100 bg-gradient-to-r from-[#8B1E24]/[0.05] to-transparent flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-[#8B1E24] text-white text-xs font-bold">1</span>
+              <h3 class="text-sm font-bold text-slate-900">Kolom Kegiatan / Tugas</h3>
+            </div>
+
+            <!-- Badge Penghitung Kata Real-Time -->
+            <div class="flex items-center gap-2">
+              <span
+                id="badge-kegiatan"
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200"
+              >
+                0 kata &bull; Menunggu input
+              </span>
+            </div>
+          </div>
+
+          <div class="p-4 sm:p-5">
+            <div class="relative">
+              <textarea
+                id="result-kegiatan"
+                rows="4"
+                placeholder="Narasi formal untuk Kolom Kegiatan / Tugas akan muncul di sini (minimal 30 kata dan maksimal 90 kata)..."
+                class="w-full rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-[#8B1E24] focus:ring-2 focus:ring-[#8B1E24]/15 focus:outline-none transition leading-relaxed resize-y"
+              ></textarea>
+              <!-- Overlay Loading Kartu 1 -->
+              <div id="loading-kegiatan" class="hidden absolute inset-0 rounded-xl bg-white/80 backdrop-blur-[1px] flex items-center justify-center">
+                <div class="flex items-center gap-2.5 text-xs font-semibold text-[#8B1E24] bg-white px-4 py-2 rounded-full shadow-sm border border-rose-100">
+                  <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-85" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  <span>Menyusun narasi kegiatan...</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+              <span class="text-[11px] text-slate-500">
+                Diksi operasional: <em>Melaksanakan, Melakukan, Memelihara, Mengelola, Menyusun</em>
+              </span>
+              <button
+                type="button"
+                id="btn-copy-kegiatan"
+                class="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 hover:bg-[#8B1E24] hover:text-white text-slate-700 font-semibold text-xs px-3.5 py-2 transition"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span class="copy-label">Salin Kegiatan</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- KARTU 2: KOLOM OUTPUT / HASIL -->
+        <article class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden transition-all" id="card-output">
+          <div class="px-5 py-3.5 border-b border-slate-100 bg-gradient-to-r from-[#B45309]/[0.07] to-transparent flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-[#B45309] text-white text-xs font-bold">2</span>
+              <h3 class="text-sm font-bold text-slate-900">Kolom Output / Hasil</h3>
+            </div>
+
+            <!-- Badge Penghitung Kata Real-Time -->
+            <div class="flex items-center gap-2">
+              <span
+                id="badge-output"
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200"
+              >
+                0 kata &bull; Menunggu input
+              </span>
+            </div>
+          </div>
+
+          <div class="p-4 sm:p-5">
+            <div class="relative">
+              <textarea
+                id="result-output"
+                rows="4"
+                placeholder="Narasi capaian formal untuk Kolom Output / Hasil akan muncul di sini (minimal 30 kata dan maksimal 90 kata)..."
+                class="w-full rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:border-[#B45309] focus:ring-2 focus:ring-[#B45309]/15 focus:outline-none transition leading-relaxed resize-y"
+              ></textarea>
+              <!-- Overlay Loading Kartu 2 -->
+              <div id="loading-output" class="hidden absolute inset-0 rounded-xl bg-white/80 backdrop-blur-[1px] flex items-center justify-center">
+                <div class="flex items-center gap-2.5 text-xs font-semibold text-[#B45309] bg-white px-4 py-2 rounded-full shadow-sm border border-amber-100">
+                  <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-85" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  <span>Menyusun narasi output...</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+              <span class="text-[11px] text-slate-500">
+                Frasa capaian: <em>Tersedianya, Terlaksananya, Terdokumentasinya, Terjaganya</em>
+              </span>
+              <button
+                type="button"
+                id="btn-copy-output"
+                class="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 hover:bg-[#B45309] hover:text-white text-slate-700 font-semibold text-xs px-3.5 py-2 transition"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                </svg>
+                <span class="copy-label">Salin Output</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- BAR AKSI HASIL: SALIN KEDUANYA & SIMPAN KE RIWAYAT -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <button
+            type="button"
+            id="btn-copy-both"
+            class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm px-4 py-2.5 transition"
+          >
+            <svg class="w-4 h-4 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+            </svg>
+            <span class="copy-label">Salin Keduanya</span>
+          </button>
+
+          <button
+            type="button"
+            id="btn-save-history"
+            class="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-semibold text-sm px-4 py-2.5 shadow-sm shadow-emerald-700/20 transition"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+            <span>Simpan ke Riwayat LKH</span>
+          </button>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- BAGIAN BAWAH: RIWAYAT LKH & EKSPOR REKAP                               -->
+    <!-- ===================================================================== -->
+    <section class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
+      <!-- Header Bagian Riwayat -->
+      <div class="px-5 py-4 border-b border-slate-100 bg-slate-50/70 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="w-9 h-9 rounded-xl bg-[#8B1E24]/10 text-[#8B1E24] flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </span>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base font-bold text-slate-900">Riwayat LKH Tersimpan</h2>
+              <span id="history-count-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#8B1E24]/10 text-[#8B1E24]">
+                0 laporan
+              </span>
+            </div>
+            <p class="text-xs text-slate-500">Tersimpan otomatis di perangkat Anda (localStorage) dan siap diekspor ke Excel (CSV UTF-8)</p>
+          </div>
+        </div>
+
+        <!-- Toolbar Pencarian & Ekspor -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+          <!-- Kotak Pencarian -->
+          <div class="relative flex-1 sm:w-64">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="search"
+              id="input-search-history"
+              placeholder="Cari tanggal, kategori, isi LKH..."
+              class="w-full rounded-xl border border-slate-300 bg-white pl-9 pr-3.5 py-2 text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:border-[#8B1E24] focus:ring-2 focus:ring-[#8B1E24]/15 focus:outline-none transition"
+            />
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Tombol Ekspor CSV -->
+            <button
+              type="button"
+              id="btn-export-csv"
+              class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#B45309] hover:bg-[#92400E] text-white font-semibold text-xs px-3.5 py-2.5 shadow-xs transition"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>Ekspor ke CSV</span>
+            </button>
+
+            <!-- Tombol Hapus Semua Riwayat -->
+            <button
+              type="button"
+              id="btn-clear-all-history"
+              class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 text-red-700 font-semibold text-xs px-3.5 py-2.5 transition"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                <path d="M10 11v6" />
+                <path d="M14 11v6" />
+              </svg>
+              <span>Hapus Semua</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kontainer Tabel Riwayat -->
+      <div class="overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[780px]">
+          <thead>
+            <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <th class="py-3.5 px-4 w-36">Tanggal</th>
+              <th class="py-3.5 px-4 w-44">Kategori</th>
+              <th class="py-3.5 px-4">Kolom Kegiatan / Tugas</th>
+              <th class="py-3.5 px-4">Kolom Output / Hasil</th>
+              <th class="py-3.5 px-4 w-36 text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body" class="divide-y divide-slate-100 text-sm">
+            <!-- Diisi dinamis oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- State Kosong Riwayat -->
+      <div id="history-empty-state" class="py-12 px-4 text-center">
+        <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="9" y1="15" x2="15" y2="15" />
+          </svg>
+        </div>
+        <p id="history-empty-title" class="text-sm font-semibold text-slate-700">Belum ada riwayat LKH tersimpan</p>
+        <p id="history-empty-subtitle" class="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+          Susun narasi kegiatan di atas lalu klik tombol <strong>Simpan ke Riwayat LKH</strong> agar rekap harian Anda tersimpan rapi dan dapat diekspor kapan saja.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER RESMI                                                           -->
+  <!-- ===================================================================== -->
+  <footer class="border-t border-slate-200 bg-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <p>
+        &copy; <span id="footer-year"></span> <strong class="text-slate-700">Sekretariat KPU Kabupaten Pacitan</strong> &bull; Alat Bantu Penyusunan LKH Pranata Komputer Ahli Pertama.
+      </p>
+      <p class="text-[11px] text-slate-400">
+        Standar validasi 30&ndash;90 kata per kolom &bull; Ditenagai Gemini API
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL KONFIRMASI KUSTOM (PENGGANTI confirm())                          -->
+  <!-- ===================================================================== -->
+  <div
+    id="confirm-modal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="confirm-modal-title"
+  >
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-md w-full p-6 animate-fade-up">
+      <div class="flex items-start gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </div>
+        <div>
+          <h3 id="confirm-modal-title" class="text-base font-bold text-slate-900">Konfirmasi Penghapusan</h3>
+          <p id="confirm-modal-message" class="text-sm text-slate-600 mt-1 leading-relaxed">
+            Apakah Anda yakin ingin melanjutkan tindakan ini?
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-end gap-2.5">
+        <button
+          type="button"
+          id="confirm-modal-cancel"
+          class="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm px-4 py-2 transition"
+        >
+          Batal
+        </button>
+        <button
+          type="button"
+          id="confirm-modal-ok"
+          class="rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-4 py-2 shadow-xs transition"
+        >
+          Ya, Hapus
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- KONTAINER NOTIFIKASI TOAST                                             -->
+  <!-- ===================================================================== -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-[calc(100%-2.5rem)] sm:w-auto pointer-events-none"></div>
+
+  <!-- ===================================================================== -->
+  <!-- LOGIKA APLIKASI JAVASCRIPT                                             -->
+  <!-- ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // =====================================================================
+      // KONFIGURASI KONSTANTA & STATE APLIKASI
+      // =====================================================================
+      const STORAGE_KEY = 'lkh_prakom_kpu_pacitan_history_v1';
+      const MIN_WORDS = 30;
+      const MAX_WORDS = 90;
+      const apiKey = ''; // Disediakan otomatis oleh runtime environment
+      const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const TARGET_LENGTH_CONFIG = {
+        ringkas: { label: 'Ringkas (30–45 kata)', min: 32, max: 44 },
+        standar: { label: 'Standar (40–65 kata)', min: 42, max: 62 },
+        komprehensif: { label: 'Komprehensif (65–85 kata)', min: 66, max: 84 },
+      };
+
+      let isProcessing = false;
+      let lastRawInput = '';
+      let historyItems = [];
+      let pendingConfirmAction = null;
+
+      // =====================================================================
+      // REFERENSI ELEMEN DOM
+      // =====================================================================
+      const elHeaderToday = document.getElementById('header-today-date');
+      const elFooterYear = document.getElementById('footer-year');
+
+      const elForm = document.getElementById('lkh-form');
+      const elInputTanggal = document.getElementById('input-tanggal');
+      const elInputKategori = document.getElementById('input-kategori');
+      const elInputKegiatan = document.getElementById('input-kegiatan');
+      const elBtnClearInput = document.getElementById('btn-clear-input');
+      const elFormErrorBox = document.getElementById('form-error-box');
+      const elFormErrorText = document.getElementById('form-error-text');
+
+      const elBtnGenerate = document.getElementById('btn-generate');
+      const elBtnGenerateIcon = document.getElementById('btn-generate-icon');
+      const elBtnGenerateSpinner = document.getElementById('btn-generate-spinner');
+      const elBtnGenerateLabel = document.getElementById('btn-generate-label');
+
+      const elBtnRegenerate = document.getElementById('btn-regenerate');
+      const elBtnAdjustLength = document.getElementById('btn-adjust-length');
+
+      const elResultKegiatan = document.getElementById('result-kegiatan');
+      const elResultOutput = document.getElementById('result-output');
+      const elBadgeKegiatan = document.getElementById('badge-kegiatan');
+      const elBadgeOutput = document.getElementById('badge-output');
+      const elLoadingKegiatan = document.getElementById('loading-kegiatan');
+      const elLoadingOutput = document.getElementById('loading-output');
+
+      const elBtnCopyKegiatan = document.getElementById('btn-copy-kegiatan');
+      const elBtnCopyOutput = document.getElementById('btn-copy-output');
+      const elBtnCopyBoth = document.getElementById('btn-copy-both');
+      const elBtnSaveHistory = document.getElementById('btn-save-history');
+
+      const elHistoryCountBadge = document.getElementById('history-count-badge');
+      const elSearchHistory = document.getElementById('input-search-history');
+      const elBtnExportCsv = document.getElementById('btn-export-csv');
+      const elBtnClearAllHistory = document.getElementById('btn-clear-all-history');
+      const elHistoryTableBody = document.getElementById('history-table-body');
+      const elHistoryEmptyState = document.getElementById('history-empty-state');
+      const elHistoryEmptyTitle = document.getElementById('history-empty-title');
+      const elHistoryEmptySubtitle = document.getElementById('history-empty-subtitle');
+
+      const elConfirmModal = document.getElementById('confirm-modal');
+      const elConfirmTitle = document.getElementById('confirm-modal-title');
+      const elConfirmMessage = document.getElementById('confirm-modal-message');
+      const elConfirmCancel = document.getElementById('confirm-modal-cancel');
+      const elConfirmOk = document.getElementById('confirm-modal-ok');
+
+      const elToastContainer = document.getElementById('toast-container');
+
+      // =====================================================================
+      // FUNGSI UTILITAS DASAR
+      // =====================================================================
+
+      /**
+       * Mendapatkan tanggal lokal hari ini dalam format YYYY-MM-DD.
+       */
+      function getTodayLocalISO() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      /**
+       * Memformat tanggal YYYY-MM-DD menjadi format resmi Indonesia (mis: 20 November 2026).
+       */
+      function formatDateIndonesian(isoDate, includeWeekday = false) {
+        if (!isoDate) return '-';
+        const parts = isoDate.split('-').map(Number);
+        if (parts.length !== 3) return isoDate;
+        const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+        const options = includeWeekday
+          ? { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }
+          : { day: 'numeric', month: 'short', year: 'numeric' };
+        return new Intl.DateTimeFormat('id-ID', options).format(dateObj);
+      }
+
+      /**
+       * Menghitung jumlah kata secara akurat dari string teks.
+       */
+      function countWords(text) {
+        if (!text || typeof text !== 'string') return 0;
+        const cleaned = text.trim();
+        if (!cleaned) return 0;
+        return cleaned.split(/\s+/).filter(Boolean).length;
+      }
+
+      /**
+       * Mengambil nilai radio target panjang kalimat yang sedang dipilih.
+       */
+      function getSelectedTargetLength() {
+        const checked = document.querySelector('input[name="target-panjang"]:checked');
+        const key = checked ? checked.value : 'standar';
+        return TARGET_LENGTH_CONFIG[key] || TARGET_LENGTH_CONFIG.standar;
+      }
+
+      /**
+       * Membersihkan teks dari karakter markdown atau tanda kutip pembungkus berlebih.
+       */
+      function sanitizePlainText(text) {
+        if (!text || typeof text !== 'string') return '';
+        return text
+          .replace(/[*_`#]/g, '')
+          .replace(/^\s*["'“”]+|["'“”]+\s*$/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      /**
+       * Escape HTML untuk mencegah XSS saat merender data riwayat ke DOM.
+       */
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      /**
+       * Menyalin teks ke clipboard menggunakan execCommand agar aman di dalam iFrame.
+       */
+      function copyTextToClipboard(text) {
+        return new Promise((resolve) => {
+          if (!text) {
+            resolve(false);
+            return;
+          }
+          try {
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = text;
+            tempTextarea.setAttribute('readonly', '');
+            tempTextarea.style.position = 'fixed';
+            tempTextarea.style.left = '-9999px';
+            tempTextarea.style.top = '0';
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            tempTextarea.setSelectionRange(0, tempTextarea.value.length);
+            const ok = document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            resolve(Boolean(ok));
+          } catch (err) {
+            resolve(false);
+          }
+        });
+      }
+
+      /**
+       * Menampilkan notifikasi toast non-intrusif di sudut kanan bawah.
+       */
+      function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        const styles = {
+          success: 'bg-slate-900 text-white border-emerald-500/40',
+          warning: 'bg-amber-900 text-amber-50 border-amber-400/40',
+          error: 'bg-red-900 text-red-50 border-red-400/40',
+          info: 'bg-slate-800 text-white border-slate-600',
+        };
+        const icons = {
+          success: `<svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`,
+          warning: `<svg class="w-4 h-4 text-amber-300 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+          error: `<svg class="w-4 h-4 text-red-300 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+          info: `<svg class="w-4 h-4 text-sky-300 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+        };
+
+        toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl border shadow-lg text-xs sm:text-sm font-medium animate-fade-up ${styles[type] || styles.success}`;
+        toast.innerHTML = `${icons[type] || icons.success}<span>${escapeHtml(message)}</span>`;
+        elToastContainer.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(6px)';
+          setTimeout(() => toast.remove(), 260);
+        }, 2800);
+      }
+
+      /**
+       * Menampilkan atau menyembunyikan pesan error inline pada form input.
+       */
+      function showFormError(message) {
+        if (!message) {
+          elFormErrorBox.classList.add('hidden');
+          elFormErrorText.textContent = '';
+          return;
+        }
+        elFormErrorText.textContent = message;
+        elFormErrorBox.classList.remove('hidden');
+      }
+
+      /**
+       * Feedback visual sementara pada tombol salin ("Tersalin!").
+       */
+      function flashButtonCopied(buttonEl, originalText) {
+        const labelEl = buttonEl.querySelector('.copy-label');
+        if (!labelEl) return;
+        labelEl.textContent = 'Tersalin!';
+        buttonEl.classList.add('ring-2', 'ring-emerald-500/40');
+        setTimeout(() => {
+          labelEl.textContent = originalText;
+          buttonEl.classList.remove('ring-2', 'ring-emerald-500/40');
+        }, 1600);
+      }
+
+      // =====================================================================
+      // VALIDASI PENGHITUNG KATA REAL-TIME (30–90 KATA)
+      // =====================================================================
+
+      /**
+       * Memperbarui badge penghitung kata untuk satu textarea hasil.
+       */
+      function updateWordBadge(textareaEl, badgeEl) {
+        const words = countWords(textareaEl.value);
+
+        if (words === 0) {
+          badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200';
+          badgeEl.innerHTML = `0 kata &bull; Menunggu input`;
+        } else if (words >= MIN_WORDS && words <= MAX_WORDS) {
+          badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+          badgeEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Sesuai: ${words} kata &bull; 30&ndash;90 kata`;
+        } else if (words < MIN_WORDS) {
+          const kurang = MIN_WORDS - words;
+          badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300';
+          badgeEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Kurang ${kurang} kata (${words} kata &bull; Min. 30)`;
+        } else {
+          const lebih = words - MAX_WORDS;
+          badgeEl.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200';
+          badgeEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Lebih ${lebih} kata (${words} kata &bull; Maks. 90)`;
+        }
+
+        updateActionButtonsState();
+      }
+
+      /**
+       * Mengatur status aktif/nonaktif tombol Variasi Diksi dan Sesuaikan Panjang.
+       */
+      function updateActionButtonsState() {
+        const hasResult = elResultKegiatan.value.trim().length > 0 || elResultOutput.value.trim().length > 0;
+        const hasInput = elInputKegiatan.value.trim().length > 0 || lastRawInput.length > 0;
+        elBtnRegenerate.disabled = isProcessing || !hasInput;
+        elBtnAdjustLength.disabled = isProcessing || !hasResult;
+      }
+
+      /**
+       * Mengatur state loading UI selama permintaan ke Gemini API berjalan.
+       */
+      function setLoadingState(loading, loadingLabel = 'Menyusun Narasi LKH...') {
+        isProcessing = loading;
+        elBtnGenerate.disabled = loading;
+        elBtnGenerateIcon.classList.toggle('hidden', loading);
+        elBtnGenerateSpinner.classList.toggle('hidden', !loading);
+        elBtnGenerateLabel.textContent = loading ? loadingLabel : 'Susun Kalimat LKH';
+
+        elLoadingKegiatan.classList.toggle('hidden', !loading);
+        elLoadingOutput.classList.toggle('hidden', !loading);
+
+        updateActionButtonsState();
+      }
+
+      // =====================================================================
+      // INTEGRASI GEMINI API (TERSTRUKTUR JSON + EXPONENTIAL BACKOFF)
+      // =====================================================================
+
+      /**
+       * Membangun System Instruction khusus Pranata Komputer Ahli Pertama Sekretariat KPU Kabupaten Pacitan.
+       */
+      function buildSystemInstruction() {
+        return [
+          'Anda adalah asisten penulis Laporan Kerja Harian (LKH) profesional untuk Pegawai ASN Sekretariat Komisi Pemilihan Umum (KPU) Kabupaten Pacitan dengan jabatan fungsional Pranata Komputer Ahli Pertama.',
+          'Tugas Anda adalah menyusun dua narasi terpisah untuk pengisian form pelaporan kinerja ASN Sekretariat KPU (e-Kinerja / SKP / LKH):',
+          '1. Field "kegiatan" (Kolom Kegiatan / Tugas): Uraian formal, objektif, terukur, dan profesional mengenai pelaksanaan tugas teknis Pranata Komputer. Wajib diawali kata kerja operasional baku ASN seperti Melaksanakan, Melakukan, Menyusun, Mengidentifikasi, Memelihara, Mengelola, Mengintegrasikan, Memberikan dukungan teknis, atau Mengoptimalkan.',
+          '2. Field "output" (Kolom Output / Hasil): Uraian formal, konkret, dan terukur mengenai hasil/luaran kegiatan tersebut bagi operasional Sekretariat KPU Kabupaten Pacitan. Wajib diawali frasa capaian baku seperti Tersedianya, Terlaksananya, Terdokumentasinya, Terjaganya, Tervalidasinya, Teratasinya, atau Terpeliharanya.',
+          'ATURAN KETAT YANG WAJIB DIPATUHI:',
+          '- Jumlah kata untuk field "kegiatan" WAJIB antara 30 hingga 90 kata (tidak boleh kurang dari 30 kata dan tidak boleh lebih dari 90 kata).',
+          '- Jumlah kata untuk field "output" WAJIB antara 30 hingga 90 kata (tidak boleh kurang dari 30 kata dan tidak boleh lebih dari 90 kata).',
+          '- Gunakan diksi tata kelola pemerintahan dan sistem pelaporan spesifik Sekretariat KPU (misalnya: Sekretariat KPU Kabupaten Pacitan, operasional perkantoran, keandalan infrastruktur teknologi informasi, keamanan data, layanan dukungan teknis, sistem informasi kepemiluan, akuntabilitas administrasi).',
+          '- Output harus berupa paragraf polos siap salin: TANPA markdown, TANPA bold/italic, TANPA bullet points, TANPA penomoran, TANPA judul kolom, dan TANPA tanda kutip pembungkus.',
+          '- Gunakan Bahasa Indonesia baku sesuai EYD V.'
+        ].join('\n');
+      }
+
+      /**
+       * Melakukan fetch ke Gemini API dengan mekanisme exponential backoff (1s, 2s, 4s, 8s, 16s).
+       */
+      async function callGeminiStructured(userPrompt) {
+        const payload = {
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: userPrompt }],
+            },
+          ],
+          systemInstruction: {
+            parts: [{ text: buildSystemInstruction() }],
+          },
+          generationConfig: {
+            temperature: 0.55,
+            responseMimeType: 'application/json',
+            responseSchema: {
+              type: 'OBJECT',
+              properties: {
+                kegiatan: {
+                  type: 'STRING',
+                  description: 'Narasi formal Kolom Kegiatan / Tugas (30 sampai 90 kata, paragraf polos).',
+                },
+                output: {
+                  type: 'STRING',
+                  description: 'Narasi formal Kolom Output / Hasil (30 sampai 90 kata, paragraf polos).',
+                },
+              },
+              required: ['kegiatan', 'output'],
+              propertyOrdering: ['kegiatan', 'output'],
+            },
+          },
+        };
+
+        const maxRetries = 5;
+        let delayMs = 1000;
+
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+          try {
+            const response = await fetch(GEMINI_ENDPOINT, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (!rawText) {
+                throw new Error('Respons Gemini tidak memuat konten teks.');
+              }
+              const parsed = JSON.parse(rawText);
+              return {
+                kegiatan: sanitizePlainText(parsed.kegiatan),
+                output: sanitizePlainText(parsed.output),
+              };
+            }
+
+            // Retry hanya pada status throttle atau server error sementara
+            if ((response.status === 429 || response.status >= 500) && attempt < maxRetries - 1) {
+              await new Promise((r) => setTimeout(r, delayMs));
+              delayMs *= 2;
+              continue;
+            }
+
+            let errDetail = `HTTP ${response.status}`;
+            try {
+              const errJson = await response.json();
+              if (errJson?.error?.message) errDetail = errJson.error.message;
+            } catch (_) {
+              // Abaikan error parsing json error
+            }
+            throw new Error(`Gagal memproses permintaan API (${errDetail}).`);
+          } catch (err) {
+            if (attempt < maxRetries - 1 && (err.name === 'TypeError' || /network|fetch/i.test(err.message))) {
+              await new Promise((r) => setTimeout(r, delayMs));
+              delayMs *= 2;
+              continue;
+            }
+            throw err;
+          }
+        }
+        throw new Error('Permintaan melebihi batas percobaan ulang. Silakan coba beberapa saat lagi.');
+      }
+
+      /**
+       * Menjalankan penyusunan narasi LKH baru (atau variasi diksi).
+       */
+      async function generateLkh(isVariation = false) {
+        showFormError('');
+        const rawInput = elInputKegiatan.value.trim() || lastRawInput;
+
+        if (!rawInput) {
+          showFormError('Mohon isi uraian kegiatan harian terlebih dahulu pada Blok Input Kegiatan.');
+          elInputKegiatan.focus();
+          return;
+        }
+
+        lastRawInput = rawInput;
+        const tanggal = elInputTanggal.value || getTodayLocalISO();
+        const kategori = elInputKategori.value;
+        const target = getSelectedTargetLength();
+
+        const variationNote = isVariation
+          ? '\nPENTING: Buat VARIASI DIKSI dan struktur kalimat yang berbeda serta lebih segar dibandingkan narasi sebelumnya, namun tetap menjaga makna inti dan standar bahasa resmi Sekretariat KPU.'
+          : '';
+
+        const userPrompt = [
+          `Susunlah Laporan Kerja Harian (LKH) untuk pegawai Pranata Komputer Ahli Pertama Sekretariat KPU Kabupaten Pacitan.`,
+          `Tanggal Kegiatan: ${formatDateIndonesian(tanggal, true)}`,
+          `Kategori Tugas: ${kategori}`,
+          `Target Panjang Optimal: Masing-masing kolom ("kegiatan" dan "output") ditargetkan sekitar ${target.min} hingga ${target.max} kata (WAJIB ketat dalam rentang minimal 30 kata dan maksimal 90 kata per kolom).`,
+          `Uraian Mentah Kegiatan Pegawai:\n"""\n${rawInput}\n"""`,
+          variationNote,
+          `Pastikan jumlah kata kedua kolom benar-benar dihitung agar berada di antara ${target.min} sampai ${target.max} kata dan tidak melanggar batas 30–90 kata.`,
+        ].join('\n');
+
+        setLoadingState(true, isVariation ? 'Menyusun Variasi Diksi...' : 'Menyusun Kalimat LKH...');
+
+        try {
+          const result = await callGeminiStructured(userPrompt);
+          elResultKegiatan.value = result.kegiatan;
+          elResultOutput.value = result.output;
+
+          updateWordBadge(elResultKegiatan, elBadgeKegiatan);
+          updateWordBadge(elResultOutput, elBadgeOutput);
+
+          const wKeg = countWords(result.kegiatan);
+          const wOut = countWords(result.output);
+
+          if (wKeg >= MIN_WORDS && wKeg <= MAX_WORDS && wOut >= MIN_WORDS && wOut <= MAX_WORDS) {
+            showToast(isVariation ? 'Variasi diksi LKH berhasil disusun.' : 'Kalimat LKH berhasil disusun sesuai batas 30–90 kata.');
+          } else {
+            showToast('Narasi selesai disusun. Klik "Sesuaikan ke 30–90 Kata" jika perlu penyesuaian panjang.', 'warning');
+          }
+        } catch (err) {
+          showFormError(err.message || 'Terjadi kendala saat menghubungi layanan Gemini API.');
+          showToast('Gagal menyusun narasi LKH.', 'error');
+        } finally {
+          setLoadingState(false);
+        }
+      }
+
+      /**
+       * Menyesuaikan teks yang sudah ada di kedua textarea agar tepat berada di rentang 30–90 kata.
+       */
+      async function adjustTextLength() {
+        showFormError('');
+        const currentKegiatan = elResultKegiatan.value.trim();
+        const currentOutput = elResultOutput.value.trim();
+
+        if (!currentKegiatan && !currentOutput) {
+          showToast('Belum ada teks hasil untuk disesuaikan.', 'warning');
+          return;
+        }
+
+        const wKeg = countWords(currentKegiatan);
+        const wOut = countWords(currentOutput);
+        const target = getSelectedTargetLength();
+
+        const prompt = [
+          `Perbaiki dan sesuaikan panjang kalimat LKH berikut untuk Pranata Komputer Ahli Pertama Sekretariat KPU Kabupaten Pacitan tanpa mengubah substansi kegiatan:`,
+          `- Teks Kolom Kegiatan/Tugas saat ini (${wKeg} kata): "${currentKegiatan || lastRawInput}"`,
+          `- Teks Kolom Output/Hasil saat ini (${wOut} kata): "${currentOutput || lastRawInput}"`,
+          `INSTRUKSI KETAT PENYESUAIAN PANJANG:`,
+          `- Target jumlah kata ideal untuk MASING-MASING kolom adalah ${target.min} hingga ${target.max} kata.`,
+          `- Setiap kolom MUTLAK harus >= 30 kata dan <= 90 kata.`,
+          `- Jika suatu kolom kurang dari 30 kata, kembangkan secara substantif dan formal dengan rincian konteks operasional TI di Sekretariat KPU Kabupaten Pacitan.`,
+          `- Jika suatu kolom lebih dari 90 kata, padatkan agar ringkas, efektif, dan tetap formal.`,
+          `- Kembalikan paragraf polos siap salin tanpa markdown atau simbol bullet.`,
+        ].join('\n');
+
+        setLoadingState(true, 'Menyesuaikan ke 30–90 Kata...');
+
+        try {
+          const result = await callGeminiStructured(prompt);
+          elResultKegiatan.value = result.kegiatan;
+          elResultOutput.value = result.output;
+
+          updateWordBadge(elResultKegiatan, elBadgeKegiatan);
+          updateWordBadge(elResultOutput, elBadgeOutput);
+
+          showToast('Panjang kalimat berhasil disesuaikan ke standar 30–90 kata.');
+        } catch (err) {
+          showFormError(err.message || 'Gagal menyesuaikan panjang kalimat.');
+          showToast('Gagal menyesuaikan panjang teks.', 'error');
+        } finally {
+          setLoadingState(false);
+        }
+      }
+
+      // =====================================================================
+      // MANAJEMEN RIWAYAT LKH (LOCALSTORAGE, PENCARIAN & EKSPOR CSV)
+      // =====================================================================
+
+      /**
+       * Memuat daftar riwayat dari localStorage.
+       */
+      function loadHistory() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          historyItems = Array.isArray(parsed) ? parsed : [];
+        } catch (_) {
+          historyItems = [];
+        }
+        renderHistoryTable();
+      }
+
+      /**
+       * Menyimpan array historyItems ke localStorage.
+       */
+      function persistHistory() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(historyItems));
+        } catch (_) {
+          showToast('Gagal menyimpan ke penyimpanan browser (localStorage penuh atau dibatasi).', 'error');
+        }
+      }
+
+      /**
+       * Menyimpan hasil saat ini sebagai entri baru di riwayat LKH.
+       */
+      function saveCurrentToHistory() {
+        const kegiatan = elResultKegiatan.value.trim();
+        const output = elResultOutput.value.trim();
+
+        if (!kegiatan || !output) {
+          showToast('Isi Kolom Kegiatan dan Kolom Output terlebih dahulu sebelum menyimpan.', 'warning');
+          return;
+        }
+
+        const newItem = {
+          id: `lkh_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+          tanggal: elInputTanggal.value || getTodayLocalISO(),
+          kategori: elInputKategori.value || 'Otomatis / Umum',
+          kegiatan,
+          output,
+          createdAt: new Date().toISOString(),
+        };
+
+        historyItems.unshift(newItem);
+        persistHistory();
+        renderHistoryTable();
+        showToast('Laporan berhasil disimpan ke Riwayat LKH.');
+      }
+
+      /**
+       * Merender tabel riwayat LKH berdasarkan kata kunci pencarian aktif.
+       */
+      function renderHistoryTable() {
+        const query = (elSearchHistory.value || '').trim().toLowerCase();
+
+        const filtered = historyItems.filter((item) => {
+          if (!query) return true;
+          const formattedDate = formatDateIndonesian(item.tanggal, false).toLowerCase();
+          return (
+            (item.tanggal || '').toLowerCase().includes(query) ||
+            formattedDate.includes(query) ||
+            (item.kategori || '').toLowerCase().includes(query) ||
+            (item.kegiatan || '').toLowerCase().includes(query) ||
+            (item.output || '').toLowerCase().includes(query)
+          );
+        });
+
+        // Perbarui badge jumlah laporan
+        elHistoryCountBadge.textContent = query
+          ? `${filtered.length} dari ${historyItems.length} laporan`
+          : `${historyItems.length} laporan`;
+
+        elHistoryTableBody.innerHTML = '';
+
+        if (filtered.length === 0) {
+          elHistoryEmptyState.classList.remove('hidden');
+          if (historyItems.length > 0 && query) {
+            elHistoryEmptyTitle.textContent = 'Tidak ditemukan riwayat yang cocok';
+            elHistoryEmptySubtitle.textContent = `Tidak ada laporan LKH yang memuat kata kunci "${elSearchHistory.value.trim()}".`;
+          } else {
+            elHistoryEmptyTitle.textContent = 'Belum ada riwayat LKH tersimpan';
+            elHistoryEmptySubtitle.innerHTML =
+              'Susun narasi kegiatan di atas lalu klik tombol <strong>Simpan ke Riwayat LKH</strong> agar rekap harian Anda tersimpan rapi dan dapat diekspor kapan saja.';
+          }
+          return;
+        }
+
+        elHistoryEmptyState.classList.add('hidden');
+
+        filtered.forEach((item) => {
+          const wKeg = countWords(item.kegiatan);
+          const wOut = countWords(item.output);
+          const kegValid = wKeg >= MIN_WORDS && wKeg <= MAX_WORDS;
+          const outValid = wOut >= MIN_WORDS && wOut <= MAX_WORDS;
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50/80 transition align-top';
+
+          tr.innerHTML = `
+            <td class="py-3.5 px-4 whitespace-nowrap">
+              <div class="font-semibold text-slate-800 text-xs sm:text-sm">${escapeHtml(formatDateIndonesian(item.tanggal, false))}</div>
+              <div class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(item.tanggal)}</div>
+            </td>
+            <td class="py-3.5 px-4">
+              <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200/80 leading-snug">
+                ${escapeHtml(item.kategori)}
+              </span>
+            </td>
+            <td class="py-3.5 px-4">
+              <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">${escapeHtml(item.kegiatan)}</p>
+              <span class="inline-block mt-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                kegValid ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-800 border border-amber-200'
+              }">${wKeg} kata</span>
+            </td>
+            <td class="py-3.5 px-4">
+              <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">${escapeHtml(item.output)}</p>
+              <span class="inline-block mt-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                outValid ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-800 border border-amber-200'
+              }">${wOut} kata</span>
+            </td>
+            <td class="py-3.5 px-4">
+              <div class="flex flex-col gap-1.5">
+                <button
+                  type="button"
+                  data-action="copy-keg"
+                  data-id="${escapeHtml(item.id)}"
+                  class="history-action-btn w-full inline-flex items-center justify-center gap-1 rounded-lg bg-slate-100 hover:bg-[#8B1E24] hover:text-white text-slate-700 font-semibold text-[11px] px-2.5 py-1.5 transition"
+                >
+                  Salin Kegiatan
+                </button>
+                <button
+                  type="button"
+                  data-action="copy-out"
+                  data-id="${escapeHtml(item.id)}"
+                  class="history-action-btn w-full inline-flex items-center justify-center gap-1 rounded-lg bg-slate-100 hover:bg-[#B45309] hover:text-white text-slate-700 font-semibold text-[11px] px-2.5 py-1.5 transition"
+                >
+                  Salin Output
+                </button>
+                <button
+                  type="button"
+                  data-action="delete"
+                  data-id="${escapeHtml(item.id)}"
+                  class="history-action-btn w-full inline-flex items-center justify-center gap-1 rounded-lg bg-red-50 hover:bg-red-600 hover:text-white text-red-700 font-semibold text-[11px] px-2.5 py-1.5 transition"
+                >
+                  Hapus
+                </button>
+              </div>
+            </td>
+          `;
+
+          elHistoryTableBody.appendChild(tr);
+        });
+      }
+
+      /**
+       * Escape sel CSV sesuai standar RFC 4180.
+       */
+      function escapeCsvCell(value) {
+        const str = value == null ? '' : String(value);
+        const escaped = str.replace(/"/g, '""');
+        return `"${escaped}"`;
+      }
+
+      /**
+       * Mengekspor seluruh riwayat LKH ke file CSV dengan UTF-8 BOM agar rapi di Microsoft Excel.
+       */
+      function exportHistoryToCsv() {
+        if (historyItems.length === 0) {
+          showToast('Belum ada data riwayat LKH untuk diekspor.', 'warning');
+          return;
+        }
+
+        const headers = [
+          'No',
+          'Tanggal',
+          'Kategori Tugas',
+          'Kolom Kegiatan / Tugas',
+          'Jumlah Kata Kegiatan',
+          'Kolom Output / Hasil',
+          'Jumlah Kata Output',
+        ];
+
+        const rows = historyItems.map((item, idx) => [
+          idx + 1,
+          item.tanggal,
+          item.kategori,
+          item.kegiatan,
+          countWords(item.kegiatan),
+          item.output,
+          countWords(item.output),
+        ]);
+
+        // Gunakan UTF-8 BOM (\uFEFF) agar Excel mengenali karakter UTF-8 dengan sempurna
+        const csvLines = [
+          headers.map(escapeCsvCell).join(','),
+          ...rows.map((row) => row.map(escapeCsvCell).join(',')),
+        ];
+        const csvContent = '\uFEFF' + csvLines.join('\r\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Rekap_LKH_Prakom_KPU_Pacitan_${getTodayLocalISO()}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        showToast(`Berhasil mengekspor ${historyItems.length} riwayat LKH ke file CSV.`);
+      }
+
+      // =====================================================================
+      // MODAL KONFIRMASI KUSTOM
+      // =====================================================================
+
+      function openConfirmModal(title, message, onConfirm) {
+        elConfirmTitle.textContent = title;
+        elConfirmMessage.textContent = message;
+        pendingConfirmAction = onConfirm;
+        elConfirmModal.classList.remove('hidden');
+        elConfirmCancel.focus();
+      }
+
+      function closeConfirmModal() {
+        elConfirmModal.classList.add('hidden');
+        pendingConfirmAction = null;
+      }
+
+      // =====================================================================
+      // PENDAFTARAN EVENT LISTENER
+      // =====================================================================
+
+      // Submit Form Utama
+      elForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        generateLkh(false);
+      });
+
+      // Bersihkan Input Kegiatan
+      elBtnClearInput.addEventListener('click', () => {
+        elInputKegiatan.value = '';
+        showFormError('');
+        elInputKegiatan.focus();
+        updateActionButtonsState();
+      });
+
+      // Chip Contoh Cepat
+      document.querySelectorAll('.quick-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          const exampleText = chip.getAttribute('data-example') || '';
+          const exampleKat = chip.getAttribute('data-kategori') || 'Otomatis / Umum';
+          elInputKegiatan.value = exampleText;
+          elInputKategori.value = exampleKat;
+          showFormError('');
+          updateActionButtonsState();
+          showToast('Contoh kegiatan dimuat. Klik "Susun Kalimat LKH" untuk memproses.', 'info');
+        });
+      });
+
+      // Input teks mentah memicu pengecekan tombol variasi
+      elInputKegiatan.addEventListener('input', () => {
+        showFormError('');
+        updateActionButtonsState();
+      });
+
+      // Penghitung kata real-time saat pengguna mengedit hasil
+      elResultKegiatan.addEventListener('input', () => {
+        updateWordBadge(elResultKegiatan, elBadgeKegiatan);
+      });
+      elResultOutput.addEventListener('input', () => {
+        updateWordBadge(elResultOutput, elBadgeOutput);
+      });
+
+      // Tombol Variasi Diksi & Sesuaikan ke 30–90 Kata
+      elBtnRegenerate.addEventListener('click', () => generateLkh(true));
+      elBtnAdjustLength.addEventListener('click', () => adjustTextLength());
+
+      // Tombol Salin Kegiatan
+      elBtnCopyKegiatan.addEventListener('click', async () => {
+        const text = elResultKegiatan.value.trim();
+        if (!text) {
+          showToast('Kolom Kegiatan / Tugas masih kosong.', 'warning');
+          return;
+        }
+        const ok = await copyTextToClipboard(text);
+        if (ok) {
+          flashButtonCopied(elBtnCopyKegiatan, 'Salin Kegiatan');
+          showToast('Teks Kolom Kegiatan / Tugas tersalin!');
+        } else {
+          showToast('Gagal menyalin teks ke clipboard.', 'error');
+        }
+      });
+
+      // Tombol Salin Output
+      elBtnCopyOutput.addEventListener('click', async () => {
+        const text = elResultOutput.value.trim();
+        if (!text) {
+          showToast('Kolom Output / Hasil masih kosong.', 'warning');
+          return;
+        }
+        const ok = await copyTextToClipboard(text);
+        if (ok) {
+          flashButtonCopied(elBtnCopyOutput, 'Salin Output');
+          showToast('Teks Kolom Output / Hasil tersalin!');
+        } else {
+          showToast('Gagal menyalin teks ke clipboard.', 'error');
+        }
+      });
+
+      // Tombol Salin Keduanya
+      elBtnCopyBoth.addEventListener('click', async () => {
+        const keg = elResultKegiatan.value.trim();
+        const out = elResultOutput.value.trim();
+        if (!keg && !out) {
+          showToast('Belum ada hasil LKH untuk disalin.', 'warning');
+          return;
+        }
+        const combined = `Kegiatan / Tugas:\n${keg || '-'}\n\nOutput / Hasil:\n${out || '-'}`;
+        const ok = await copyTextToClipboard(combined);
+        if (ok) {
+          flashButtonCopied(elBtnCopyBoth, 'Salin Keduanya');
+          showToast('Kolom Kegiatan & Output berhasil disalin sekaligus!');
+        } else {
+          showToast('Gagal menyalin teks ke clipboard.', 'error');
+        }
+      });
+
+      // Tombol Simpan ke Riwayat
+      elBtnSaveHistory.addEventListener('click', saveCurrentToHistory);
+
+      // Pencarian Riwayat Real-Time
+      elSearchHistory.addEventListener('input', renderHistoryTable);
+
+      // Ekspor CSV
+      elBtnExportCsv.addEventListener('click', exportHistoryToCsv);
+
+      // Hapus Semua Riwayat dengan Modal Konfirmasi Kustom
+      elBtnClearAllHistory.addEventListener('click', () => {
+        if (historyItems.length === 0) {
+          showToast('Riwayat LKH sudah kosong.', 'info');
+          return;
+        }
+        openConfirmModal(
+          'Hapus Semua Riwayat LKH?',
+          `Seluruh ${historyItems.length} data laporan yang tersimpan di browser ini akan dihapus secara permanen dan tidak dapat dikembalikan.`,
+          () => {
+            historyItems = [];
+            persistHistory();
+            renderHistoryTable();
+            showToast('Seluruh riwayat LKH berhasil dihapus.');
+          }
+        );
+      });
+
+      // Delegasi Event Tombol Aksi pada Baris Tabel Riwayat
+      elHistoryTableBody.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.history-action-btn');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        const id = btn.getAttribute('data-id');
+        const item = historyItems.find((x) => x.id === id);
+        if (!item) return;
+
+        if (action === 'copy-keg') {
+          const ok = await copyTextToClipboard(item.kegiatan);
+          if (ok) showToast('Kolom Kegiatan dari riwayat tersalin!');
+        } else if (action === 'copy-out') {
+          const ok = await copyTextToClipboard(item.output);
+          if (ok) showToast('Kolom Output dari riwayat tersalin!');
+        } else if (action === 'delete') {
+          openConfirmModal(
+            'Hapus Entri Laporan Ini?',
+            `Laporan tanggal ${formatDateIndonesian(item.tanggal, false)} (${item.kategori}) akan dihapus dari daftar riwayat.`,
+            () => {
+              historyItems = historyItems.filter((x) => x.id !== id);
+              persistHistory();
+              renderHistoryTable();
+              showToast('Satu entri riwayat LKH dihapus.');
+            }
+          );
+        }
+      });
+
+      // Event Modal Konfirmasi
+      elConfirmCancel.addEventListener('click', closeConfirmModal);
+      elConfirmOk.addEventListener('click', () => {
+        if (typeof pendingConfirmAction === 'function') {
+          pendingConfirmAction();
+        }
+        closeConfirmModal();
+      });
+      elConfirmModal.addEventListener('click', (e) => {
+        if (e.target === elConfirmModal) closeConfirmModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !elConfirmModal.classList.contains('hidden')) {
+          closeConfirmModal();
+        }
+      });
+
+      // =====================================================================
+      // INISIALISASI SAAT HALAMAN DIMUAT
+      // =====================================================================
+      function initApp() {
+        const todayISO = getTodayLocalISO();
+        elInputTanggal.value = todayISO;
+        elHeaderToday.textContent = formatDateIndonesian(todayISO, true);
+        elFooterYear.textContent = new Date().getFullYear();
+
+        updateWordBadge(elResultKegiatan, elBadgeKegiatan);
+        updateWordBadge(elResultOutput, elBadgeOutput);
+        loadHistory();
+      }
+
+      initApp();
+    })();
+  </script>
+</body>
+</html>
